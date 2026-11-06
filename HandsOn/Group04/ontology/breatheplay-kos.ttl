@@ -50,7 +50,8 @@ bpmkos:InfrastructureType a skos:ConceptScheme ;
 
 #################################################################
 # Madrid code lists, mapped to EDINT
-# The concepts (resource/pollutant/{MAGNITUD} and resource/facility-type/{TIPO_ID})
+# The concepts (resource/pollutant/{CONTAMINANTE_SLUG}, e.g. pollutant/no2, and
+# resource/facility-type/{TIPO_ID})
 # are generated from csv/edint-environmental-properties.csv and
 # csv/edint-infrastructure-types.csv by the mappings.
 #################################################################

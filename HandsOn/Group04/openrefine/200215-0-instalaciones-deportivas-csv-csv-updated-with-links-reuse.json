@@ -1,0 +1,41 @@
+[
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "NOMBRE",
+    "expression": "jython:import unicodedata, re\n# readable name for the IRI: facility name without the common prefix\nv = re.sub(u'^Instalaci\\u00f3n Deportiva Municipal B\\u00e1sica\\\\s+', u'', unicode(value))\ns = unicodedata.normalize('NFKD', v).encode('ascii', 'ignore').lower()\ns = re.sub(r'[^a-z0-9]+', '-', s).strip('-')\nreturn s or None",
+    "onError": "set-to-blank",
+    "newColumnName": "INSTALACION_SLUG",
+    "columnInsertIndex": 21,
+    "description": "Create column INSTALACION_SLUG at index 21 based on column NOMBRE using expression jython:import unicodedata, re\n# readable name for the IRI: facility name without the common prefix\nv = re.sub(u'^Instalaci\\u00f3n Deportiva Municipal B\\u00e1sica\\\\s+', u'', unicode(value))\ns = unicodedata.normalize('NFKD', v).encode('ascii', 'ignore').lower()\ns = re.sub(r'[^a-z0-9]+', '-', s).strip('-')\nreturn s or None"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "DISTRITO",
+    "expression": "jython:import unicodedata, re\nif value is None:\n    return None\ns = unicodedata.normalize('NFKD', unicode(value)).encode('ascii', 'ignore').lower()\ns = re.sub(r'[^a-z0-9]+', '-', s).strip('-')\nreturn s or None",
+    "onError": "set-to-blank",
+    "newColumnName": "DISTRITO_SLUG",
+    "columnInsertIndex": 22,
+    "description": "Create column DISTRITO_SLUG at index 22 based on column DISTRITO using expression jython:import unicodedata, re\nif value is None:\n    return None\ns = unicodedata.normalize('NFKD', unicode(value)).encode('ascii', 'ignore').lower()\ns = re.sub(r'[^a-z0-9]+', '-', s).strip('-')\nreturn s or None"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "BARRIO",
+    "expression": "jython:import unicodedata, re\nif value is None:\n    return None\ns = unicodedata.normalize('NFKD', unicode(value)).encode('ascii', 'ignore').lower()\ns = re.sub(r'[^a-z0-9]+', '-', s).strip('-')\nreturn s or None",
+    "onError": "set-to-blank",
+    "newColumnName": "BARRIO_SLUG",
+    "columnInsertIndex": 23,
+    "description": "Create column BARRIO_SLUG at index 23 based on column BARRIO using expression jython:import unicodedata, re\nif value is None:\n    return None\ns = unicodedata.normalize('NFKD', unicode(value)).encode('ascii', 'ignore').lower()\ns = re.sub(r'[^a-z0-9]+', '-', s).strip('-')\nreturn s or None"
+  }
+]

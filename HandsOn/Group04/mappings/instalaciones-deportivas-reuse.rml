@@ -19,25 +19,30 @@
 # Group04 - Breathe & Play Madrid - Hands-on 6 (ontology reuse).
 # Run from the HandsOn/Group04 directory (python mappings/generate_rdf-reuse.py).
 # Dataset: Instalaciones deportivas municipales básicas (Ayuntamiento de Madrid, 200215)
-# Sources: csv/200215-0-instalaciones-deportivas-csv-csv-updated-with-links.csv (Hands-on 5)
+# Sources: csv/200215-0-instalaciones-deportivas-csv-csv-updated-with-links-reuse.csv
+#          (Hands-on 5 CSV + *_SLUG columns, openrefine/*-with-links-reuse.json)
 #          csv/edint-infrastructure-types.csv (correspondence table: Madrid facility
 #          type -> EDINT infrastructure type)
 #
 # Model: facilities are EDINT facilities (edintinf:Facility) with an EDINT
 # infrastructure type, accessibility, district and neighbourhood (edintinf:belongsTo),
 # a GeoSPARQL geometry and a postal address (Spanish direccion-postal vocabulary).
+#
+# IRIs: readable names (columns *_SLUG of the -with-links-reuse.csv files, added in
+# OpenRefine: name in lower case without accents, words joined by "-"); the codes
+# of the source are kept with dct:identifier. Example: resource/sports-facility/ademo-arroyo-fontarron.
 
 # ---------------------------------------------------------------------------
 # Sports facilities
 # ---------------------------------------------------------------------------
 <#SportsFacilityMap> a rr:TriplesMap ;
     rml:logicalSource [
-        rml:source "csv/200215-0-instalaciones-deportivas-csv-csv-updated-with-links.csv" ;
+        rml:source "csv/200215-0-instalaciones-deportivas-csv-csv-updated-with-links-reuse.csv" ;
         rml:referenceFormulation ql:CSV
     ] ;
 
     rr:subjectMap [
-        rr:template "https://w3id.org/breatheplay-madrid/resource/sports-facility/{PK}" ;
+        rr:template "https://w3id.org/breatheplay-madrid/resource/sports-facility/{INSTALACION_SLUG}" ;
         rr:termType rr:IRI ;
         rr:class edintinf:Facility
     ] ;
@@ -96,7 +101,7 @@
     rr:predicateObjectMap [
         rr:predicate schema:address ;
         rr:objectMap [
-            rr:template "https://w3id.org/breatheplay-madrid/resource/postal-address/sports-facility/{PK}" ;
+            rr:template "https://w3id.org/breatheplay-madrid/resource/postal-address/sports-facility/{INSTALACION_SLUG}" ;
             rr:termType rr:IRI
         ]
     ] ;
@@ -114,7 +119,7 @@
     rr:predicateObjectMap [
         rr:predicate gsp:hasGeometry ;
         rr:objectMap [
-            rr:template "https://w3id.org/breatheplay-madrid/resource/geometry/sports-facility/{PK}" ;
+            rr:template "https://w3id.org/breatheplay-madrid/resource/geometry/sports-facility/{INSTALACION_SLUG}" ;
             rr:termType rr:IRI
         ]
     ] ;
@@ -122,7 +127,7 @@
     rr:predicateObjectMap [
         rr:predicate edintinf:belongsTo ;
         rr:objectMap [
-            rr:template "https://w3id.org/breatheplay-madrid/resource/district/{COD-DISTRITO}" ;
+            rr:template "https://w3id.org/breatheplay-madrid/resource/district/{DISTRITO_SLUG}" ;
             rr:termType rr:IRI
         ]
     ] ;
@@ -131,7 +136,7 @@
     rr:predicateObjectMap [
         rr:predicate edintinf:belongsTo ;
         rr:objectMap [
-            rr:template "https://w3id.org/breatheplay-madrid/resource/neighbourhood/{BARRIO_ID}" ;
+            rr:template "https://w3id.org/breatheplay-madrid/resource/neighbourhood/{BARRIO_SLUG}" ;
             rr:termType rr:IRI
         ]
     ] ;
@@ -157,12 +162,12 @@
 # ---------------------------------------------------------------------------
 <#MonitoringStationMap> a rr:TriplesMap ;
     rml:logicalSource [
-        rml:source "csv/212629-0-estaciones-control-aire-csv-updated-with-links.csv" ;
+        rml:source "csv/212629-0-estaciones-control-aire-csv-updated-with-links-reuse.csv" ;
         rml:referenceFormulation ql:CSV
     ] ;
 
     rr:subjectMap [
-        rr:template "https://w3id.org/breatheplay-madrid/resource/station/{CODIGO}" ;
+        rr:template "https://w3id.org/breatheplay-madrid/resource/station/{ESTACION_SLUG}" ;
         rr:termType rr:IRI ;
         rr:class edintmed:SensorPlatform
     ] ;
@@ -191,7 +196,8 @@
 # ---------------------------------------------------------------------------
 # Madrid facility types (TIPO_ID) as a SKOS list mapped to the EDINT types with
 # skos:exactMatch, skos:closeMatch or skos:broadMatch (column SKOS_MATCH).
-# Same IRIs as the facility types of version 1 (resource/facility-type/{TIPO_ID}).
+# Same IRIs as the facility types of version 1 (resource/facility-type/{TIPO_ID},
+# already readable, e.g. resource/facility-type/calistenia).
 # ---------------------------------------------------------------------------
 <#MadridFacilityTypeMap> a rr:TriplesMap ;
     rml:logicalSource [
@@ -230,12 +236,12 @@
 # ---------------------------------------------------------------------------
 <#FacilityGeometryMap> a rr:TriplesMap ;
     rml:logicalSource [
-        rml:source "csv/200215-0-instalaciones-deportivas-csv-csv-updated-with-links.csv" ;
+        rml:source "csv/200215-0-instalaciones-deportivas-csv-csv-updated-with-links-reuse.csv" ;
         rml:referenceFormulation ql:CSV
     ] ;
 
     rr:subjectMap [
-        rr:template "https://w3id.org/breatheplay-madrid/resource/geometry/sports-facility/{PK}" ;
+        rr:template "https://w3id.org/breatheplay-madrid/resource/geometry/sports-facility/{INSTALACION_SLUG}" ;
         rr:termType rr:IRI ;
         rr:class gsp:Geometry
     ] ;
@@ -260,12 +266,12 @@
 # ---------------------------------------------------------------------------
 <#FacilityAddressMap> a rr:TriplesMap ;
     rml:logicalSource [
-        rml:source "csv/200215-0-instalaciones-deportivas-csv-csv-updated-with-links.csv" ;
+        rml:source "csv/200215-0-instalaciones-deportivas-csv-csv-updated-with-links-reuse.csv" ;
         rml:referenceFormulation ql:CSV
     ] ;
 
     rr:subjectMap [
-        rr:template "https://w3id.org/breatheplay-madrid/resource/postal-address/sports-facility/{PK}" ;
+        rr:template "https://w3id.org/breatheplay-madrid/resource/postal-address/sports-facility/{INSTALACION_SLUG}" ;
         rr:termType rr:IRI ;
         rr:class esdir:DireccionPostal
     ] ;
@@ -295,12 +301,12 @@
 # ---------------------------------------------------------------------------
 <#DistrictMap> a rr:TriplesMap ;
     rml:logicalSource [
-        rml:source "csv/200215-0-instalaciones-deportivas-csv-csv-updated-with-links.csv" ;
+        rml:source "csv/200215-0-instalaciones-deportivas-csv-csv-updated-with-links-reuse.csv" ;
         rml:referenceFormulation ql:CSV
     ] ;
 
     rr:subjectMap [
-        rr:template "https://w3id.org/breatheplay-madrid/resource/district/{COD-DISTRITO}" ;
+        rr:template "https://w3id.org/breatheplay-madrid/resource/district/{DISTRITO_SLUG}" ;
         rr:termType rr:IRI ;
         rr:class esadm:Distrito
     ] ;
@@ -325,12 +331,12 @@
 # ---------------------------------------------------------------------------
 <#NeighbourhoodMap> a rr:TriplesMap ;
     rml:logicalSource [
-        rml:source "csv/200215-0-instalaciones-deportivas-csv-csv-updated-with-links.csv" ;
+        rml:source "csv/200215-0-instalaciones-deportivas-csv-csv-updated-with-links-reuse.csv" ;
         rml:referenceFormulation ql:CSV
     ] ;
 
     rr:subjectMap [
-        rr:template "https://w3id.org/breatheplay-madrid/resource/neighbourhood/{BARRIO_ID}" ;
+        rr:template "https://w3id.org/breatheplay-madrid/resource/neighbourhood/{BARRIO_SLUG}" ;
         rr:termType rr:IRI ;
         rr:class esadm:Barrio
     ] ;
@@ -349,7 +355,7 @@
     rr:predicateObjectMap [
         rr:predicate gsp:sfWithin ;
         rr:objectMap [
-            rr:template "https://w3id.org/breatheplay-madrid/resource/district/{COD-DISTRITO}" ;
+            rr:template "https://w3id.org/breatheplay-madrid/resource/district/{DISTRITO_SLUG}" ;
             rr:termType rr:IRI
         ]
     ] ;

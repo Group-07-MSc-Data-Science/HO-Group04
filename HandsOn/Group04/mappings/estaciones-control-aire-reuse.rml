@@ -18,23 +18,28 @@
 # Group04 - Breathe & Play Madrid - Hands-on 6 (ontology reuse).
 # Run from the HandsOn/Group04 directory (python mappings/generate_rdf-reuse.py).
 # Dataset: Estaciones de control de la calidad del aire (Ayuntamiento de Madrid, 212629)
-# Source:  csv/212629-0-estaciones-control-aire-csv-updated-with-links.csv (Hands-on 5)
+# Source:  csv/212629-0-estaciones-control-aire-csv-updated-with-links-reuse.csv
+#          (Hands-on 5 CSV + *_SLUG columns, openrefine/*-with-links-reuse.json)
 #
 # Model: stations are EDINT sensor platforms (edintmed:SensorPlatform) with a
 # GeoSPARQL geometry and a postal address (Spanish direccion-postal vocabulary);
 # districts and neighbourhoods use the Spanish territorio vocabulary.
+#
+# IRIs: readable names (columns *_SLUG of the -with-links-reuse.csv files, added in
+# OpenRefine: name in lower case without accents, words joined by "-"); the codes
+# of the source are kept with dct:identifier. Example: resource/station/plaza-de-espana.
 
 # ---------------------------------------------------------------------------
 # Monitoring stations
 # ---------------------------------------------------------------------------
 <#MonitoringStationMap> a rr:TriplesMap ;
     rml:logicalSource [
-        rml:source "csv/212629-0-estaciones-control-aire-csv-updated-with-links.csv" ;
+        rml:source "csv/212629-0-estaciones-control-aire-csv-updated-with-links-reuse.csv" ;
         rml:referenceFormulation ql:CSV
     ] ;
 
     rr:subjectMap [
-        rr:template "https://w3id.org/breatheplay-madrid/resource/station/{CODIGO}" ;
+        rr:template "https://w3id.org/breatheplay-madrid/resource/station/{ESTACION_SLUG}" ;
         rr:termType rr:IRI ;
         rr:class edintmed:SensorPlatform
     ] ;
@@ -67,7 +72,7 @@
     rr:predicateObjectMap [
         rr:predicate gsp:hasGeometry ;
         rr:objectMap [
-            rr:template "https://w3id.org/breatheplay-madrid/resource/geometry/station/{CODIGO}" ;
+            rr:template "https://w3id.org/breatheplay-madrid/resource/geometry/station/{ESTACION_SLUG}" ;
             rr:termType rr:IRI
         ]
     ] ;
@@ -75,7 +80,7 @@
     rr:predicateObjectMap [
         rr:predicate schema:address ;
         rr:objectMap [
-            rr:template "https://w3id.org/breatheplay-madrid/resource/postal-address/station/{CODIGO}" ;
+            rr:template "https://w3id.org/breatheplay-madrid/resource/postal-address/station/{ESTACION_SLUG}" ;
             rr:termType rr:IRI
         ]
     ] ;
@@ -88,7 +93,7 @@
     rr:predicateObjectMap [
         rr:predicate bpm:hasStationType ;
         rr:objectMap [
-            rr:template "https://w3id.org/breatheplay-madrid/resource/station-type/{COD_TIPO}" ;
+            rr:template "https://w3id.org/breatheplay-madrid/resource/station-type/{TIPO_SLUG}" ;
             rr:termType rr:IRI
         ]
     ] ;
@@ -97,7 +102,7 @@
     rr:predicateObjectMap [
         rr:predicate edintinf:belongsTo ;
         rr:objectMap [
-            rr:template "https://w3id.org/breatheplay-madrid/resource/district/{COD-DISTRITO}" ;
+            rr:template "https://w3id.org/breatheplay-madrid/resource/district/{DISTRITO_SLUG}" ;
             rr:termType rr:IRI
         ]
     ] ;
@@ -106,7 +111,7 @@
     rr:predicateObjectMap [
         rr:predicate edintinf:belongsTo ;
         rr:objectMap [
-            rr:template "https://w3id.org/breatheplay-madrid/resource/neighbourhood/{BARRIO_ID}" ;
+            rr:template "https://w3id.org/breatheplay-madrid/resource/neighbourhood/{BARRIO_SLUG}" ;
             rr:termType rr:IRI
         ]
     ] .
@@ -116,12 +121,12 @@
 # ---------------------------------------------------------------------------
 <#StationGeometryMap> a rr:TriplesMap ;
     rml:logicalSource [
-        rml:source "csv/212629-0-estaciones-control-aire-csv-updated-with-links.csv" ;
+        rml:source "csv/212629-0-estaciones-control-aire-csv-updated-with-links-reuse.csv" ;
         rml:referenceFormulation ql:CSV
     ] ;
 
     rr:subjectMap [
-        rr:template "https://w3id.org/breatheplay-madrid/resource/geometry/station/{CODIGO}" ;
+        rr:template "https://w3id.org/breatheplay-madrid/resource/geometry/station/{ESTACION_SLUG}" ;
         rr:termType rr:IRI ;
         rr:class gsp:Geometry
     ] ;
@@ -145,12 +150,12 @@
 # ---------------------------------------------------------------------------
 <#StationAddressMap> a rr:TriplesMap ;
     rml:logicalSource [
-        rml:source "csv/212629-0-estaciones-control-aire-csv-updated-with-links.csv" ;
+        rml:source "csv/212629-0-estaciones-control-aire-csv-updated-with-links-reuse.csv" ;
         rml:referenceFormulation ql:CSV
     ] ;
 
     rr:subjectMap [
-        rr:template "https://w3id.org/breatheplay-madrid/resource/postal-address/station/{CODIGO}" ;
+        rr:template "https://w3id.org/breatheplay-madrid/resource/postal-address/station/{ESTACION_SLUG}" ;
         rr:termType rr:IRI ;
         rr:class esdir:DireccionPostal
     ] ;
@@ -175,12 +180,12 @@
 # ---------------------------------------------------------------------------
 <#StationTypeMap> a rr:TriplesMap ;
     rml:logicalSource [
-        rml:source "csv/212629-0-estaciones-control-aire-csv-updated-with-links.csv" ;
+        rml:source "csv/212629-0-estaciones-control-aire-csv-updated-with-links-reuse.csv" ;
         rml:referenceFormulation ql:CSV
     ] ;
 
     rr:subjectMap [
-        rr:template "https://w3id.org/breatheplay-madrid/resource/station-type/{COD_TIPO}" ;
+        rr:template "https://w3id.org/breatheplay-madrid/resource/station-type/{TIPO_SLUG}" ;
         rr:termType rr:IRI ;
         rr:class bpm:StationType
     ] ;
@@ -200,12 +205,12 @@
 # ---------------------------------------------------------------------------
 <#DistrictMap> a rr:TriplesMap ;
     rml:logicalSource [
-        rml:source "csv/212629-0-estaciones-control-aire-csv-updated-with-links.csv" ;
+        rml:source "csv/212629-0-estaciones-control-aire-csv-updated-with-links-reuse.csv" ;
         rml:referenceFormulation ql:CSV
     ] ;
 
     rr:subjectMap [
-        rr:template "https://w3id.org/breatheplay-madrid/resource/district/{COD-DISTRITO}" ;
+        rr:template "https://w3id.org/breatheplay-madrid/resource/district/{DISTRITO_SLUG}" ;
         rr:termType rr:IRI ;
         rr:class esadm:Distrito
     ] ;
@@ -230,12 +235,12 @@
 # ---------------------------------------------------------------------------
 <#NeighbourhoodMap> a rr:TriplesMap ;
     rml:logicalSource [
-        rml:source "csv/212629-0-estaciones-control-aire-csv-updated-with-links.csv" ;
+        rml:source "csv/212629-0-estaciones-control-aire-csv-updated-with-links-reuse.csv" ;
         rml:referenceFormulation ql:CSV
     ] ;
 
     rr:subjectMap [
-        rr:template "https://w3id.org/breatheplay-madrid/resource/neighbourhood/{BARRIO_ID}" ;
+        rr:template "https://w3id.org/breatheplay-madrid/resource/neighbourhood/{BARRIO_SLUG}" ;
         rr:termType rr:IRI ;
         rr:class esadm:Barrio
     ] ;
@@ -254,7 +259,7 @@
     rr:predicateObjectMap [
         rr:predicate gsp:sfWithin ;
         rr:objectMap [
-            rr:template "https://w3id.org/breatheplay-madrid/resource/district/{COD-DISTRITO}" ;
+            rr:template "https://w3id.org/breatheplay-madrid/resource/district/{DISTRITO_SLUG}" ;
             rr:termType rr:IRI
         ]
     ] ;

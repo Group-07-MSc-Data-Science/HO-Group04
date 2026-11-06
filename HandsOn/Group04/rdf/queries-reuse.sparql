@@ -24,6 +24,7 @@ PREFIX owl:      <http://www.w3.org/2002/07/owl#>
 PREFIX rdfs:     <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX xsd:      <http://www.w3.org/2001/XMLSchema#>
 PREFIX factype:  <https://w3id.org/breatheplay-madrid/resource/facility-type/>
+PREFIX facility: <https://w3id.org/breatheplay-madrid/resource/sports-facility/>
 
 # -----------------------------------------------------------------------------
 # Control queries
@@ -203,14 +204,13 @@ ORDER BY ?facility
 
 # -----------------------------------------------------------------------------
 # Q11. CQ02 - What was the daily NO2 value at the station nearest to a given
-#      facility on 15/01/2024? (example: facility 4547664, Ademo). The date is
+#      facility on 15/01/2024? (example: facility:ademo-arroyo-fontarron). The date is
 #      the beginning of the OWL-Time day of the observation.
 # -----------------------------------------------------------------------------
 SELECT ?facility ?station ?date ?value ?unit ?valid
 WHERE {
-  ?f dct:identifier "4547664"^^xsd:string ;
-     rdfs:label ?facility ;
-     bpm:hasNearestStation ?st .
+  facility:ademo-arroyo-fontarron rdfs:label ?facility ;
+                                  bpm:hasNearestStation ?st .
   ?st rdfs:label ?station .
   ?sensor sosa:isHostedBy ?st ;
           sosa:observes edintkos-vars:NO2Concentration .

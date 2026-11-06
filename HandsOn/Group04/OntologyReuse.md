@@ -52,9 +52,42 @@ equivalent in them: **2 classes and 7 properties** (before: 12 and 25).
 `bpm:equipment`, `bpm:transportInfo`, and the link between the two domains:
 `bpm:hasNearestStation` and `bpm:distanceToNearestStation`.
 
-**IRIs of our resources did not change** (stations, sampling points, observations,
-techniques, facilities, districts, neighbourhoods, pollutant codes and facility
-types). New resources: `day/`, `instant/`, `geometry/` and `postal-address/`.
+New resources: `day/`, `instant/`, `geometry/` and `postal-address/`.
+
+## Readable IRIs (feedback of Hands-on 1–4)
+
+The evaluation of Hands-on 1–4 said that the IRIs of the individuals should be
+human-readable and meaningful. Version 1 built them from the codes of the source
+(`resource/station/28079004`), following the resource naming strategy of
+Hands-on 2 (`analysis.html`, section 4), which is kept as it was delivered. They now use the name of the resource: in lower case,
+without accents and with the words joined by `-`. The names were checked to be
+unique (24 stations, 607 facilities, 21 districts, neighbourhoods, 131 sampling
+points = station + pollutant). The codes are not lost: they are kept with
+`dct:identifier` (and `skos:notation` for the pollutant codes).
+
+| Resource | Before | Now |
+|---|---|---|
+| Station | `station/28079004` | `station/plaza-de-espana` |
+| Sampling point | `sampling-point/28079004_8_8` | `sampling-point/plaza-de-espana-no2` |
+| Observation | `observation/28079004_8_8/2024-01-15` | `observation/plaza-de-espana-no2-2024-01-15` |
+| Pollutant (Madrid code) | `pollutant/8` | `pollutant/no2` |
+| Measurement technique | `technique/08` | `technique/chemiluminescence` |
+| Station type | `station-type/ut` | `station-type/urban-traffic` |
+| Sports facility | `sports-facility/4547664` | `sports-facility/ademo-arroyo-fontarron` |
+| District | `district/21` | `district/barajas` |
+| Neighbourhood | `neighbourhood/084` | `neighbourhood/el-pilar` |
+| Geometry, postal address | `geometry/station/28079004` | `geometry/station/plaza-de-espana` |
+
+The readable names are new columns (`*_SLUG`) added in OpenRefine with Jython
+expressions to the Hands-on 5 CSV files. To leave the Hands-on 5 files unchanged,
+the result is saved as new files, `csv/*-with-links-reuse.csv`, with their
+operation histories in `openrefine/*-with-links-reuse.json` (applied to
+`csv/*-with-links.csv`); the correspondence table
+`csv/edint-environmental-properties.csv` has a `CONTAMINANTE_SLUG` column. The mappings
+use them in their IRI templates. Facility types (`facility-type/calistenia`),
+days and instants were already readable. A side effect: the neighbourhoods
+San Andrés and Ambroz, which have no code in the source, now also get an IRI
+(115 neighbourhoods instead of 113).
 
 ## Madrid code lists mapped to EDINT
 
@@ -64,7 +97,8 @@ using two correspondence tables in `csv/`:
 
 - `csv/edint-environmental-properties.csv`: Madrid pollutant code (`MAGNITUD`) →
   EDINT environmental property, QUDT unit and Wikidata entity (from Hands-on 5).
-  The Madrid codes become `resource/pollutant/{MAGNITUD}` concepts with
+  The Madrid codes become `resource/pollutant/{CONTAMINANTE_SLUG}` concepts
+  (e.g. `pollutant/no2`, with the code as `skos:notation`) with
   `skos:exactMatch` to EDINT. The observations point to the EDINT concept.
 - `csv/edint-infrastructure-types.csv`: Madrid facility type (`TIPO_ID`) → EDINT
   infrastructure type, with the kind of correspondence: 9 exact, 11 close, 2 broad
@@ -102,7 +136,7 @@ competency question about calisthenics (CQ01) uses the Madrid type.
   observation points; we also use it for the monitoring stations (a station is an
   urban infrastructure element), so one property links everything to its district
   and neighbourhood.
-- **Size.** The graph grows from 355,889 to 492,734 triples (feature of interest,
+- **Size.** The graph grows from 355,889 to 492,748 triples (feature of interest,
   units and days of each observation, geometries, postal addresses and the SKOS
   lists), but the data can now be queried with the same vocabulary as other
   Spanish municipalities that use EDINT.
@@ -111,7 +145,7 @@ competency question about calisthenics (CQ01) uses the Madrid type.
 
 - `rdf/queries-reuse.sparql` (Q1–Q17): the control queries Q2–Q4 return no
   results, and the data and competency question queries return the same results
-  as in Hands-on 4 and 5 (e.g. Q7 NO2 ranking, Q12 CQ03 64 football pitches,
+  as in Hands-on 4 and 5, also after changing the IRIs (e.g. Q7 NO2 ranking, Q12 CQ03 64 football pitches,
   Q13 CQ04 Hortaleza 72 facilities, Q17 12 facilities in the same Wikidata
   neighbourhood as a station).
 - The merged graph conforms to the SHACL shapes published by EDINT
@@ -128,10 +162,11 @@ competency question about calisthenics (CQ01) uses the Madrid type.
 |---|---|
 | `ontology/breatheplay-reuse.ttl` | ontology v2.0.0 (own terms + declaration of the reused ones) |
 | `ontology/breatheplay-kos.ttl` | own SKOS concepts and concept schemes |
-| `ontology/breatheplay-reuse.drawio.xml` | diagram of version 2.0.0 in Chowlk notation (orange: own terms; blue: EDINT terms; white: other standards). Chowlk generates from it the same domains, ranges and subclass axioms of our own terms as in `breatheplay-reuse.ttl`; the reused properties are drawn between the classes we use them with, as in the EDINT diagrams, and `gsp:Feature` groups the location properties of stations and facilities |
+| `ontology/breatheplay-reuse.drawio.xml` | diagram of version 2.0.0 in Chowlk notation (yellow: own terms; blue: EDINT terms; white: other standards). Chowlk generates from it the same domains, ranges and subclass axioms of our own terms as in `breatheplay-reuse.ttl`; the reused properties are drawn between the classes we use them with, as in the EDINT diagrams, and `gsp:Feature` groups the location properties of stations and facilities |
+| `csv/*-with-links-reuse.csv`, `openrefine/*-with-links-reuse.json` | Hands-on 5 CSV files + readable names for the IRIs (`*_SLUG` columns), and the OpenRefine operations that add them |
 | `csv/edint-environmental-properties.csv`, `csv/edint-infrastructure-types.csv` | correspondence tables |
-| `mappings/*-reuse.rml` | RML mappings (sources: the Hands-on 5 CSV files + correspondence tables) |
+| `mappings/*-reuse.rml` | RML mappings (sources: `csv/*-with-links-reuse.csv` + correspondence tables) |
 | `mappings/generate_rdf-reuse.py` | `python mappings/generate_rdf-reuse.py` (with `PYTHONUTF8=1` on Windows) |
-| `rdf/*-reuse.ttl`, `rdf/*-reuse.nt` | RDF: 476,204 / 535 / 15,995 triples |
+| `rdf/*-reuse.ttl` | RDF: 476,204 / 535 / 16,009 triples (`*-reuse.nt` is also generated, not uploaded because of its size) |
 | `rdf/queries-reuse.sparql` | queries (load the 3 RDF files and `ontology/breatheplay-kos.ttl`) |
 | `validate_shacl-reuse.py`, `shacl/report-reuse.ttl` | SHACL validation with the EDINT shapes and its report |

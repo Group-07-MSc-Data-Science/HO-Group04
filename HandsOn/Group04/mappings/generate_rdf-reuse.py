@@ -3,7 +3,8 @@
 Runs the RML mappings that reuse the EDINT ontologies (mappings/*-reuse.rml) with
 Morph-KGC and writes, for each dataset, one N-Triples file (rdf/*-reuse.nt) and one
 Turtle file (rdf/*-reuse.ttl) with the same triples. The mappings read the CSV files
-of Hands-on 5 (csv/*-with-links.csv) and the correspondence tables with the EDINT
+of Hands-on 5 with the readable names used in the IRIs (csv/*-with-links-reuse.csv,
+made with openrefine/*-with-links-reuse.json) and the correspondence tables with the EDINT
 concepts (csv/edint-environmental-properties.csv, csv/edint-infrastructure-types.csv).
 
 Usage (from the HandsOn/Group04 directory):
