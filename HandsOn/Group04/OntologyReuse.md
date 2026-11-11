@@ -58,8 +58,9 @@ New resources: `day/`, `instant/`, `geometry/` and `postal-address/`.
 
 The evaluation of Hands-on 1–4 said that the IRIs of the individuals should be
 human-readable and meaningful. Version 1 built them from the codes of the source
-(`resource/station/28079004`), following the resource naming strategy of
-Hands-on 2 (`analysis.html`, section 4), which is kept as it was delivered. They now use the name of the resource: in lower case,
+(`resource/station/28079004`). The change is applied to the whole repository
+(naming strategy of Hands-on 2 in `analysis.html`, section 4, CSV files of
+Hands-on 3, mappings and RDF of Hands-on 4, 5 and 6). The IRIs now use the name of the resource: in lower case,
 without accents and with the words joined by `-`. The names were checked to be
 unique (24 stations, 607 facilities, 21 districts, neighbourhoods, 131 sampling
 points = station + pollutant). The codes are not lost: they are kept with
@@ -79,15 +80,14 @@ points = station + pollutant). The codes are not lost: they are kept with
 | Geometry, postal address | `geometry/station/28079004` | `geometry/station/plaza-de-espana` |
 
 The readable names are new columns (`*_SLUG`) added in OpenRefine with Jython
-expressions to the Hands-on 5 CSV files. To leave the Hands-on 5 files unchanged,
-the result is saved as new files, `csv/*-with-links-reuse.csv`, with their
-operation histories in `openrefine/*-with-links-reuse.json` (applied to
-`csv/*-with-links.csv`); the correspondence table
-`csv/edint-environmental-properties.csv` has a `CONTAMINANTE_SLUG` column. The mappings
-use them in their IRI templates. Facility types (`facility-type/calistenia`),
-days and instants were already readable. A side effect: the neighbourhoods
-San Andrés and Ambroz, which have no code in the source, now also get an IRI
-(115 neighbourhoods instead of 113).
+expressions in Hands-on 3 (last operations of `openrefine/*-updated.json`, so
+they are also in `csv/*-with-links.csv`). The district and neighbourhood of the
+stations only exist after linking, so their `DISTRITO_SLUG` and `BARRIO_SLUG`
+are added in Hands-on 5 (`lodrefine/212629-...-with-links.json`). The
+correspondence table `csv/edint-environmental-properties.csv` has a
+`CONTAMINANTE_SLUG` column. The mappings use them in their IRI templates.
+Only the neighbourhoods with a code get an IRI (113, as before). Facility types
+(`facility-type/calistenia`), days and instants were already readable.
 
 ## Madrid code lists mapped to EDINT
 
@@ -136,7 +136,7 @@ competency question about calisthenics (CQ01) uses the Madrid type.
   observation points; we also use it for the monitoring stations (a station is an
   urban infrastructure element), so one property links everything to its district
   and neighbourhood.
-- **Size.** The graph grows from 355,889 to 492,748 triples (feature of interest,
+- **Size.** The graph grows from 355,889 to 492,734 triples (feature of interest,
   units and days of each observation, geometries, postal addresses and the SKOS
   lists), but the data can now be queried with the same vocabulary as other
   Spanish municipalities that use EDINT.
@@ -163,10 +163,9 @@ competency question about calisthenics (CQ01) uses the Madrid type.
 | `ontology/breatheplay-reuse.ttl` | ontology v2.0.0 (own terms + declaration of the reused ones) |
 | `ontology/breatheplay-kos.ttl` | own SKOS concepts and concept schemes |
 | `ontology/breatheplay-reuse.drawio.xml` | diagram of version 2.0.0 in Chowlk notation (yellow: own terms; blue: EDINT terms; white: other standards). Chowlk generates from it the same domains, ranges and subclass axioms of our own terms as in `breatheplay-reuse.ttl`; the reused properties are drawn between the classes we use them with, as in the EDINT diagrams, and `gsp:Feature` groups the location properties of stations and facilities |
-| `csv/*-with-links-reuse.csv`, `openrefine/*-with-links-reuse.json` | Hands-on 5 CSV files + readable names for the IRIs (`*_SLUG` columns), and the OpenRefine operations that add them |
 | `csv/edint-environmental-properties.csv`, `csv/edint-infrastructure-types.csv` | correspondence tables |
-| `mappings/*-reuse.rml` | RML mappings (sources: `csv/*-with-links-reuse.csv` + correspondence tables) |
+| `mappings/*-reuse.rml` | RML mappings (sources: `csv/*-with-links.csv` + correspondence tables) |
 | `mappings/generate_rdf-reuse.py` | `python mappings/generate_rdf-reuse.py` (with `PYTHONUTF8=1` on Windows) |
-| `rdf/*-reuse.ttl` | RDF: 476,204 / 535 / 16,009 triples (`*-reuse.nt` is also generated, not uploaded because of its size) |
+| `rdf/*-reuse.ttl` | RDF: 476,204 / 535 / 15,995 triples (`*-reuse.nt` is also generated, not uploaded because of its size) |
 | `rdf/queries-reuse.sparql` | queries (load the 3 RDF files and `ontology/breatheplay-kos.ttl`) |
 | `validate_shacl-reuse.py`, `shacl/report-reuse.ttl` | SHACL validation with the EDINT shapes and its report |

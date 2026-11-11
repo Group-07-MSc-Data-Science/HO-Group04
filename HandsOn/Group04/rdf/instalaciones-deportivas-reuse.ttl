@@ -1846,8 +1846,7 @@ fac:casalarreina a edintinf:Facility ;
     geo:lat 40.40897549865364 ;
     geo:long -3.6140942577626016 ;
     edintinf:accessibility "No accesible"^^xsd:string ;
-    edintinf:belongsTo district:vicalvaro,
-        nbh:ambroz ;
+    edintinf:belongsTo district:vicalvaro ;
     edintinf:hasInfrastructureType edintkos-inftype:equipamiento-deportivo,
         factype:instalaciones-deportivas-basicas ;
     bpm:distanceToNearestStation 2.645 ;
@@ -2368,8 +2367,7 @@ fac:colonia-marconi a edintinf:Facility ;
     geo:lat 40.33378974534553 ;
     geo:long -3.698026716448742 ;
     edintinf:accessibility "No accesible"^^xsd:string ;
-    edintinf:belongsTo district:villaverde,
-        nbh:san-andres ;
+    edintinf:belongsTo district:villaverde ;
     edintinf:hasInfrastructureType edintkos-inftype:pista-de-badminton,
         edintkos-inftype:pista-de-tenis,
         factype:pistas-tenis-badminton ;
@@ -2495,8 +2493,7 @@ fac:cordel-de-pavones-i a edintinf:Facility ;
     geo:lat 40.40930182229157 ;
     geo:long -3.608605091516184 ;
     edintinf:accessibility "No accesible"^^xsd:string ;
-    edintinf:belongsTo district:vicalvaro,
-        nbh:ambroz ;
+    edintinf:belongsTo district:vicalvaro ;
     edintinf:hasInfrastructureType edintkos-inftype:pista-de-badminton,
         edintkos-inftype:pista-de-tenis,
         factype:pistas-tenis-badminton ;
@@ -6658,8 +6655,7 @@ fac:parque-de-la-vicalvarada a edintinf:Facility ;
     geo:lat 40.41079351896063 ;
     geo:long -3.607616723630345 ;
     edintinf:accessibility "No accesible"^^xsd:string ;
-    edintinf:belongsTo district:vicalvaro,
-        nbh:ambroz ;
+    edintinf:belongsTo district:vicalvaro ;
     edintinf:hasInfrastructureType edintkos-inftype:campo-de-futbol,
         factype:campos-estadios-futbol ;
     bpm:distanceToNearestStation 3.207 ;
@@ -7629,8 +7625,7 @@ fac:parque-plata-y-castanar a edintinf:Facility ;
     geo:lat 40.34893806864997 ;
     geo:long -3.717423564562957 ;
     edintinf:accessibility "No accesible"^^xsd:string ;
-    edintinf:belongsTo district:villaverde,
-        nbh:san-andres ;
+    edintinf:belongsTo district:villaverde ;
     edintinf:hasInfrastructureType edintkos-inftype:pistas-de-petanca,
         factype:pista-bolos-petanca-calva-chito ;
     bpm:distanceToNearestStation 0.401 ;
@@ -10763,8 +10758,7 @@ fac:villalonso a edintinf:Facility ;
     geo:lat 40.34963625511252 ;
     geo:long -3.7079934408457023 ;
     edintinf:accessibility "No accesible"^^xsd:string ;
-    edintinf:belongsTo district:villaverde,
-        nbh:san-andres ;
+    edintinf:belongsTo district:villaverde ;
     edintinf:hasInfrastructureType edintkos-inftype:pistas-polideportivas,
         factype:pista-futbol-sala ;
     bpm:distanceToNearestStation 0.529 ;
@@ -17266,11 +17260,6 @@ factype:tenis-mesa a skos:Concept ;
     skos:notation "tenis-mesa"^^xsd:string ;
     skos:prefLabel "Tenis Mesa"@es .
 
-nbh:ambroz a esadm:Barrio ;
-    rdfs:label "AMBROZ"@es ;
-    gsp:sfWithin district:vicalvaro ;
-    owl:sameAs wd:Q11905294 .
-
 nbh:amposta a esadm:Barrio ;
     rdfs:label "AMPOSTA"@es ;
     dct:identifier "203"^^xsd:string ;
@@ -17330,11 +17319,6 @@ nbh:prosperidad a esadm:Barrio ;
     dct:identifier "052"^^xsd:string ;
     gsp:sfWithin district:chamartin ;
     owl:sameAs wd:Q4776 .
-
-nbh:san-andres a esadm:Barrio ;
-    rdfs:label "SAN ANDRES"@es ;
-    gsp:sfWithin district:villaverde ;
-    owl:sameAs wd:Q390435 .
 
 nbh:san-diego a esadm:Barrio ;
     rdfs:label "SAN DIEGO"@es ;
@@ -17850,6 +17834,11 @@ district:tetuan a esadm:Distrito ;
     dct:identifier "06"^^xsd:string ;
     owl:sameAs wd:Q1773540 .
 
+district:vicalvaro a esadm:Distrito ;
+    rdfs:label "VICALVARO"@es ;
+    dct:identifier "19"^^xsd:string ;
+    owl:sameAs wd:Q589403 .
+
 nbh:las-aguilas a esadm:Barrio ;
     rdfs:label "LAS AGUILAS"@es ;
     dct:identifier "107"^^xsd:string ;
@@ -17858,11 +17847,6 @@ nbh:las-aguilas a esadm:Barrio ;
 
 station:casa-de-campo a edintmed:SensorPlatform ;
     rdfs:label "Casa de Campo"@es .
-
-district:vicalvaro a esadm:Distrito ;
-    rdfs:label "VICALVARO"@es ;
-    dct:identifier "19"^^xsd:string ;
-    owl:sameAs wd:Q589403 .
 
 nbh:valverde a esadm:Barrio ;
     rdfs:label "VALVERDE"@es ;
@@ -17949,6 +17933,11 @@ district:ciudad-lineal a esadm:Distrito ;
     dct:identifier "15"^^xsd:string ;
     owl:sameAs wd:Q1763694 .
 
+district:villaverde a esadm:Distrito ;
+    rdfs:label "VILLAVERDE"@es ;
+    dct:identifier "17"^^xsd:string ;
+    owl:sameAs wd:Q919536 .
+
 station:juan-carlos-i a edintmed:SensorPlatform ;
     rdfs:label "Juan Carlos I"@es .
 
@@ -17956,11 +17945,6 @@ district:villa-de-vallecas a esadm:Distrito ;
     rdfs:label "VILLA DE VALLECAS"@es ;
     dct:identifier "18"^^xsd:string ;
     owl:sameAs wd:Q1947988 .
-
-district:villaverde a esadm:Distrito ;
-    rdfs:label "VILLAVERDE"@es ;
-    dct:identifier "17"^^xsd:string ;
-    owl:sameAs wd:Q919536 .
 
 station:arturo-soria a edintmed:SensorPlatform ;
     rdfs:label "Arturo Soria"@es .

@@ -15,8 +15,7 @@
 # Group04 - Breathe & Play Madrid - Hands-on 6 (ontology reuse).
 # Run from the HandsOn/Group04 directory (python mappings/generate_rdf-reuse.py).
 # Dataset: Calidad del aire. Datos diarios 2024 (Ayuntamiento de Madrid)
-# Sources: csv/calidad-aire-diario-2024-csv-updated-with-links-reuse.csv
-#          (Hands-on 5 CSV + *_SLUG columns, openrefine/*-with-links-reuse.json)
+# Sources: csv/calidad-aire-diario-2024-csv-updated-with-links.csv
 #          csv/edint-environmental-properties.csv (correspondence table: Madrid
 #          pollutant code -> EDINT environmental property, QUDT unit, Wikidata)
 #
@@ -27,16 +26,16 @@
 # pollutants are EDINT environmental properties (SKOS concepts), units are QUDT
 # units and the day of the observation is an OWL-Time interval.
 #
-# IRIs: readable names (columns *_SLUG of the -with-links-reuse.csv files, added in
-# OpenRefine: name in lower case without accents, words joined by "-"); the codes
-# of the source are kept with dct:identifier. Example: resource/observation/plaza-de-espana-no2-2024-01-15.
+# IRIs: readable names (columns *_SLUG, added in OpenRefine: name in lower case
+# without accents, words joined by "-"); the codes of the source are kept with
+# dct:identifier. Example: resource/observation/plaza-de-espana-no2-2024-01-15.
 
 # ---------------------------------------------------------------------------
 # Daily observations
 # ---------------------------------------------------------------------------
 <#DailyObservationMap> a rr:TriplesMap ;
     rml:logicalSource [
-        rml:source "csv/calidad-aire-diario-2024-csv-updated-with-links-reuse.csv" ;
+        rml:source "csv/calidad-aire-diario-2024-csv-updated-with-links.csv" ;
         rml:referenceFormulation ql:CSV
     ] ;
 
@@ -118,7 +117,7 @@
 # ---------------------------------------------------------------------------
 <#DayMap> a rr:TriplesMap ;
     rml:logicalSource [
-        rml:source "csv/calidad-aire-diario-2024-csv-updated-with-links-reuse.csv" ;
+        rml:source "csv/calidad-aire-diario-2024-csv-updated-with-links.csv" ;
         rml:referenceFormulation ql:CSV
     ] ;
 
@@ -148,7 +147,7 @@
 
 <#InstantMap> a rr:TriplesMap ;
     rml:logicalSource [
-        rml:source "csv/calidad-aire-diario-2024-csv-updated-with-links-reuse.csv" ;
+        rml:source "csv/calidad-aire-diario-2024-csv-updated-with-links.csv" ;
         rml:referenceFormulation ql:CSV
     ] ;
 
@@ -173,7 +172,7 @@
 # ---------------------------------------------------------------------------
 <#SamplingPointMap> a rr:TriplesMap ;
     rml:logicalSource [
-        rml:source "csv/calidad-aire-diario-2024-csv-updated-with-links-reuse.csv" ;
+        rml:source "csv/calidad-aire-diario-2024-csv-updated-with-links.csv" ;
         rml:referenceFormulation ql:CSV
     ] ;
 
@@ -232,7 +231,7 @@
 # ---------------------------------------------------------------------------
 <#StationHostsMap> a rr:TriplesMap ;
     rml:logicalSource [
-        rml:source "csv/calidad-aire-diario-2024-csv-updated-with-links-reuse.csv" ;
+        rml:source "csv/calidad-aire-diario-2024-csv-updated-with-links.csv" ;
         rml:referenceFormulation ql:CSV
     ] ;
 
@@ -254,7 +253,7 @@
 # ---------------------------------------------------------------------------
 <#TechniqueMap> a rr:TriplesMap ;
     rml:logicalSource [
-        rml:source "csv/calidad-aire-diario-2024-csv-updated-with-links-reuse.csv" ;
+        rml:source "csv/calidad-aire-diario-2024-csv-updated-with-links.csv" ;
         rml:referenceFormulation ql:CSV
     ] ;
 

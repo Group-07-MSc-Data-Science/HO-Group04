@@ -19,8 +19,7 @@
 # Group04 - Breathe & Play Madrid - Hands-on 6 (ontology reuse).
 # Run from the HandsOn/Group04 directory (python mappings/generate_rdf-reuse.py).
 # Dataset: Instalaciones deportivas municipales básicas (Ayuntamiento de Madrid, 200215)
-# Sources: csv/200215-0-instalaciones-deportivas-csv-csv-updated-with-links-reuse.csv
-#          (Hands-on 5 CSV + *_SLUG columns, openrefine/*-with-links-reuse.json)
+# Sources: csv/200215-0-instalaciones-deportivas-csv-csv-updated-with-links.csv
 #          csv/edint-infrastructure-types.csv (correspondence table: Madrid facility
 #          type -> EDINT infrastructure type)
 #
@@ -28,16 +27,16 @@
 # infrastructure type, accessibility, district and neighbourhood (edintinf:belongsTo),
 # a GeoSPARQL geometry and a postal address (Spanish direccion-postal vocabulary).
 #
-# IRIs: readable names (columns *_SLUG of the -with-links-reuse.csv files, added in
-# OpenRefine: name in lower case without accents, words joined by "-"); the codes
-# of the source are kept with dct:identifier. Example: resource/sports-facility/ademo-arroyo-fontarron.
+# IRIs: readable names (columns *_SLUG, added in OpenRefine: name in lower case
+# without accents, words joined by "-"); the codes of the source are kept with
+# dct:identifier. Example: resource/sports-facility/ademo-arroyo-fontarron.
 
 # ---------------------------------------------------------------------------
 # Sports facilities
 # ---------------------------------------------------------------------------
 <#SportsFacilityMap> a rr:TriplesMap ;
     rml:logicalSource [
-        rml:source "csv/200215-0-instalaciones-deportivas-csv-csv-updated-with-links-reuse.csv" ;
+        rml:source "csv/200215-0-instalaciones-deportivas-csv-csv-updated-with-links.csv" ;
         rml:referenceFormulation ql:CSV
     ] ;
 
@@ -162,7 +161,7 @@
 # ---------------------------------------------------------------------------
 <#MonitoringStationMap> a rr:TriplesMap ;
     rml:logicalSource [
-        rml:source "csv/212629-0-estaciones-control-aire-csv-updated-with-links-reuse.csv" ;
+        rml:source "csv/212629-0-estaciones-control-aire-csv-updated-with-links.csv" ;
         rml:referenceFormulation ql:CSV
     ] ;
 
@@ -236,7 +235,7 @@
 # ---------------------------------------------------------------------------
 <#FacilityGeometryMap> a rr:TriplesMap ;
     rml:logicalSource [
-        rml:source "csv/200215-0-instalaciones-deportivas-csv-csv-updated-with-links-reuse.csv" ;
+        rml:source "csv/200215-0-instalaciones-deportivas-csv-csv-updated-with-links.csv" ;
         rml:referenceFormulation ql:CSV
     ] ;
 
@@ -266,7 +265,7 @@
 # ---------------------------------------------------------------------------
 <#FacilityAddressMap> a rr:TriplesMap ;
     rml:logicalSource [
-        rml:source "csv/200215-0-instalaciones-deportivas-csv-csv-updated-with-links-reuse.csv" ;
+        rml:source "csv/200215-0-instalaciones-deportivas-csv-csv-updated-with-links.csv" ;
         rml:referenceFormulation ql:CSV
     ] ;
 
@@ -301,7 +300,7 @@
 # ---------------------------------------------------------------------------
 <#DistrictMap> a rr:TriplesMap ;
     rml:logicalSource [
-        rml:source "csv/200215-0-instalaciones-deportivas-csv-csv-updated-with-links-reuse.csv" ;
+        rml:source "csv/200215-0-instalaciones-deportivas-csv-csv-updated-with-links.csv" ;
         rml:referenceFormulation ql:CSV
     ] ;
 
@@ -331,7 +330,7 @@
 # ---------------------------------------------------------------------------
 <#NeighbourhoodMap> a rr:TriplesMap ;
     rml:logicalSource [
-        rml:source "csv/200215-0-instalaciones-deportivas-csv-csv-updated-with-links-reuse.csv" ;
+        rml:source "csv/200215-0-instalaciones-deportivas-csv-csv-updated-with-links.csv" ;
         rml:referenceFormulation ql:CSV
     ] ;
 

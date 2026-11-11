@@ -18,23 +18,22 @@
 # Group04 - Breathe & Play Madrid - Hands-on 6 (ontology reuse).
 # Run from the HandsOn/Group04 directory (python mappings/generate_rdf-reuse.py).
 # Dataset: Estaciones de control de la calidad del aire (Ayuntamiento de Madrid, 212629)
-# Source:  csv/212629-0-estaciones-control-aire-csv-updated-with-links-reuse.csv
-#          (Hands-on 5 CSV + *_SLUG columns, openrefine/*-with-links-reuse.json)
+# Source:  csv/212629-0-estaciones-control-aire-csv-updated-with-links.csv
 #
 # Model: stations are EDINT sensor platforms (edintmed:SensorPlatform) with a
 # GeoSPARQL geometry and a postal address (Spanish direccion-postal vocabulary);
 # districts and neighbourhoods use the Spanish territorio vocabulary.
 #
-# IRIs: readable names (columns *_SLUG of the -with-links-reuse.csv files, added in
-# OpenRefine: name in lower case without accents, words joined by "-"); the codes
-# of the source are kept with dct:identifier. Example: resource/station/plaza-de-espana.
+# IRIs: readable names (columns *_SLUG, added in OpenRefine: name in lower case
+# without accents, words joined by "-"); the codes of the source are kept with
+# dct:identifier. Example: resource/station/plaza-de-espana.
 
 # ---------------------------------------------------------------------------
 # Monitoring stations
 # ---------------------------------------------------------------------------
 <#MonitoringStationMap> a rr:TriplesMap ;
     rml:logicalSource [
-        rml:source "csv/212629-0-estaciones-control-aire-csv-updated-with-links-reuse.csv" ;
+        rml:source "csv/212629-0-estaciones-control-aire-csv-updated-with-links.csv" ;
         rml:referenceFormulation ql:CSV
     ] ;
 
@@ -121,7 +120,7 @@
 # ---------------------------------------------------------------------------
 <#StationGeometryMap> a rr:TriplesMap ;
     rml:logicalSource [
-        rml:source "csv/212629-0-estaciones-control-aire-csv-updated-with-links-reuse.csv" ;
+        rml:source "csv/212629-0-estaciones-control-aire-csv-updated-with-links.csv" ;
         rml:referenceFormulation ql:CSV
     ] ;
 
@@ -150,7 +149,7 @@
 # ---------------------------------------------------------------------------
 <#StationAddressMap> a rr:TriplesMap ;
     rml:logicalSource [
-        rml:source "csv/212629-0-estaciones-control-aire-csv-updated-with-links-reuse.csv" ;
+        rml:source "csv/212629-0-estaciones-control-aire-csv-updated-with-links.csv" ;
         rml:referenceFormulation ql:CSV
     ] ;
 
@@ -180,7 +179,7 @@
 # ---------------------------------------------------------------------------
 <#StationTypeMap> a rr:TriplesMap ;
     rml:logicalSource [
-        rml:source "csv/212629-0-estaciones-control-aire-csv-updated-with-links-reuse.csv" ;
+        rml:source "csv/212629-0-estaciones-control-aire-csv-updated-with-links.csv" ;
         rml:referenceFormulation ql:CSV
     ] ;
 
@@ -205,7 +204,7 @@
 # ---------------------------------------------------------------------------
 <#DistrictMap> a rr:TriplesMap ;
     rml:logicalSource [
-        rml:source "csv/212629-0-estaciones-control-aire-csv-updated-with-links-reuse.csv" ;
+        rml:source "csv/212629-0-estaciones-control-aire-csv-updated-with-links.csv" ;
         rml:referenceFormulation ql:CSV
     ] ;
 
@@ -235,7 +234,7 @@
 # ---------------------------------------------------------------------------
 <#NeighbourhoodMap> a rr:TriplesMap ;
     rml:logicalSource [
-        rml:source "csv/212629-0-estaciones-control-aire-csv-updated-with-links-reuse.csv" ;
+        rml:source "csv/212629-0-estaciones-control-aire-csv-updated-with-links.csv" ;
         rml:referenceFormulation ql:CSV
     ] ;
 
