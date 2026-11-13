@@ -1,13 +1,22 @@
 # Breathe & Play Madrid – application
 
-Web application (Streamlit) over the knowledge graph of Hands-on 6. Every value shown
-comes from a SPARQL query over the graph (`queries.py`).
+Web application (Streamlit) over the knowledge graph of Hands-on 6, published in
+GraphDB. Every value shown comes from a SPARQL query (`queries.py`): over our graph, or
+over Wikidata, following the `owl:sameAs` links of our districts and neighbourhoods.
 
 | Page | What it shows | Requirements (applicationRequirements.html) |
 |---|---|---|
 | **Mapa** | The 607 sports facilities on a map, coloured by the air quality measured on the chosen day at their nearest monitoring station; filters by type, district and accessibility; the 24 stations | FR1, FR2, FR3, FR9 |
 | **Ficha de la instalación** | Data of a facility, its nearest station, the district and neighbourhood in Wikidata, and the daily values of a pollutant in 2024 with the days above the reference value | FR4, FR5, FR8, FR9 |
-| **Distritos** | Facilities and mean value of a pollutant per district (with the Wikidata link), and the facilities of a type with the cleanest air | FR6, FR7, FR8 |
+| **Distritos** | Facilities, inhabitants and area (from Wikidata), facilities per 10,000 inhabitants and mean value of a pollutant per district, and the facilities of a type with the cleanest air | FR6, FR7, FR8 |
+
+**Benefits of linked data shown in the app.** The data of three different datasets of
+the City Council (air quality, stations, sports facilities) is queried together
+because they share resources (stations, districts) and vocabularies (EDINT, SOSA).
+The links to Wikidata add what the City Council data does not have: the description
+of the district and neighbourhood of each facility (Ficha) and the population and
+area of each district (Distritos), so the app can compute facilities per 10,000
+inhabitants.
 
 The source and licence of the data (CC BY 4.0, Madrid City Council) are shown on every
 page (FR10).
@@ -25,13 +34,17 @@ marked as not valid by the City Council are not used.
 | `app.py` | Entry point and navigation |
 | `mapa.py`, `ficha.py`, `distritos.py` | The three pages |
 | `queries.py` | SPARQL queries (EDINT, SOSA, OWL-Time… vocabulary) and reference values |
-| `data.py` | Runs the queries: RDF loaded locally with pyoxigraph, or the GraphDB endpoint |
+| `data.py` | Runs the queries: GraphDB endpoint, or the RDF files loaded locally with pyoxigraph if GraphDB is not running |
 | `common.py` | Shared helpers (air quality categories, Wikidata, footer) |
+| `requirements.txt` | Python libraries |
 
 ## Run
 
-Use a separate Python environment (the version of pyoxigraph used here is newer than
-the one Morph-KGC needs). With Anaconda:
+1. Start GraphDB with the repository `breatheplay` (the published graph: the three
+   `rdf/*-reuse.ttl` files, `ontology/breatheplay-kos.ttl` and
+   `ontology/breatheplay-reuse.ttl`).
+2. Use a separate Python environment (the version of pyoxigraph used here is newer
+   than the one Morph-KGC needs). With Anaconda:
 
 ```
 conda create -n bpm-app python=3.12
@@ -41,20 +54,16 @@ pip install -r app/requirements.txt
 streamlit run app/app.py
 ```
 
-The browser opens at http://localhost:8501. The first load takes a few seconds (the
-graph is loaded in memory: `rdf/*-reuse.ttl`, `ontology/breatheplay-kos.ttl` and
-`ontology/breatheplay-reuse.ttl`). The map and the Wikidata descriptions need an
-internet connection.
+The browser opens at http://localhost:8501. The footer of the sidebar says which
+source is being used. The map, the Wikidata descriptions and the population of the
+districts need an internet connection.
 
-### Using the graph published in GraphDB
-
-Load the same files in a GraphDB repository (e.g. `breatheplay`), then start the app
-with the endpoint in the variable `BPM_SPARQL_ENDPOINT`:
+The app queries `http://localhost:7200/repositories/breatheplay`. If GraphDB is not
+running, it loads the same files in memory with pyoxigraph (a few seconds), so it also
+works without GraphDB. Another endpoint can be given in the variable
+`BPM_SPARQL_ENDPOINT` (`local` always uses the files):
 
 ```
-set BPM_SPARQL_ENDPOINT=http://localhost:7200/repositories/breatheplay      (Windows)
-export BPM_SPARQL_ENDPOINT=http://localhost:7200/repositories/breatheplay   (Linux/Mac)
-streamlit run app/app.py
+set BPM_SPARQL_ENDPOINT=http://localhost:7200/repositories/other      (Windows)
+export BPM_SPARQL_ENDPOINT=http://localhost:7200/repositories/other   (Linux/Mac)
 ```
-
-The footer of the sidebar says which source is being used.

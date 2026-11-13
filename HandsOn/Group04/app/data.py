@@ -2,14 +2,15 @@
 
 The app sends SPARQL queries to one of two sources:
 
-- "local" (default): the RDF files of Hands-on 6 are loaded in memory with
-  pyoxigraph, an RDF store that runs inside Python (about 1 second).
-- "graphdb": the SPARQL endpoint of the repository published in GraphDB, e.g.
-  http://localhost:7200/repositories/breatheplay
+- GraphDB (default): the SPARQL endpoint of the repository where the graph is
+  published, http://localhost:7200/repositories/breatheplay
+- local (fallback): if GraphDB is not running, the RDF files of Hands-on 6 are
+  loaded in memory with pyoxigraph, an RDF store that runs inside Python.
 
-To use GraphDB, set the environment variable before starting the app:
-    set BPM_SPARQL_ENDPOINT=http://localhost:7200/repositories/breatheplay   (Windows)
-    export BPM_SPARQL_ENDPOINT=http://localhost:7200/repositories/breatheplay (Linux/Mac)
+Another endpoint can be given in the environment variable BPM_SPARQL_ENDPOINT
+(the value "local" always uses the RDF files):
+    set BPM_SPARQL_ENDPOINT=http://localhost:7200/repositories/otro   (Windows)
+    export BPM_SPARQL_ENDPOINT=http://localhost:7200/repositories/otro (Linux/Mac)
 """
 import os
 from pathlib import Path
@@ -26,14 +27,32 @@ RDF_FILES = [
     GROUP_DIR / "ontology" / "breatheplay-kos.ttl",
     GROUP_DIR / "ontology" / "breatheplay-reuse.ttl",
 ]
-ENDPOINT = os.environ.get("BPM_SPARQL_ENDPOINT", "").strip()
+DEFAULT_ENDPOINT = "http://localhost:7200/repositories/breatheplay"
+ENDPOINT = os.environ.get("BPM_SPARQL_ENDPOINT", "").strip() or DEFAULT_ENDPOINT
 
 XSD = "http://www.w3.org/2001/XMLSchema#"
 NUMBER_TYPES = {XSD + t for t in ("decimal", "double", "float", "integer", "int", "long")}
 
 
+@st.cache_resource(show_spinner=False)
+def use_endpoint():
+    """True if the SPARQL endpoint answers (checked once, when the app starts)."""
+    if ENDPOINT.lower() == "local":
+        return False
+    try:
+        response = requests.post(ENDPOINT, data={"query": "ASK { ?s ?p ?o }"},
+                                 headers={"Accept": "application/sparql-results+json"},
+                                 timeout=5)
+        response.raise_for_status()
+        return response.json().get("boolean") is True  # the repository is not empty
+    except Exception:
+        return False
+
+
 def source_name():
-    return f"GraphDB ({ENDPOINT})" if ENDPOINT else "RDF local (pyoxigraph)"
+    if use_endpoint():
+        return f"GraphDB ({ENDPOINT})"
+    return "RDF local (pyoxigraph): GraphDB no está disponible"
 
 
 def _convert(value, datatype):
@@ -75,15 +94,8 @@ def _query_local(sparql):
     return pd.DataFrame(rows, columns=names)
 
 
-def _query_graphdb(sparql):
-    response = requests.post(
-        ENDPOINT,
-        data={"query": sparql},
-        headers={"Accept": "application/sparql-results+json"},
-        timeout=60,
-    )
-    response.raise_for_status()
-    result = response.json()
+def to_dataframe(result):
+    """SPARQL JSON results (W3C format) -> table (DataFrame)."""
     names = result["head"]["vars"]
     rows = []
     for binding in result["results"]["bindings"]:
@@ -100,7 +112,19 @@ def _query_graphdb(sparql):
     return pd.DataFrame(rows, columns=names)
 
 
+def query_endpoint(endpoint, sparql, timeout=60, headers=None):
+    """Sends a SPARQL SELECT query to an endpoint (GraphDB, Wikidata...)."""
+    response = requests.post(
+        endpoint,
+        data={"query": sparql},
+        headers={"Accept": "application/sparql-results+json", **(headers or {})},
+        timeout=timeout,
+    )
+    response.raise_for_status()
+    return to_dataframe(response.json())
+
+
 @st.cache_data(show_spinner=False)
 def query(sparql):
-    """Runs a SPARQL SELECT query and returns the results as a table (DataFrame)."""
-    return _query_graphdb(sparql) if ENDPOINT else _query_local(sparql)
+    """Runs a SPARQL SELECT query over our graph and returns the results as a table."""
+    return query_endpoint(ENDPOINT, sparql) if use_endpoint() else _query_local(sparql)

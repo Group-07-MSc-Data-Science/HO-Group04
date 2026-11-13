@@ -230,3 +230,30 @@ WHERE {{
 }}
 ORDER BY ?mean ?distance
 """
+
+
+# ------------------------------------------------------------------ Wikidata
+WIKIDATA_ENDPOINT = "https://query.wikidata.org/sparql"
+
+
+def wikidata_districts(qids):
+    """Population (P1082, with its date P585) and area in km² (P2046) of the
+    districts in Wikidata. The Wikidata entities are the ones our districts are
+    linked to with owl:sameAs (Hands-on 5), so this data is not in our graph."""
+    values = " ".join(f"wd:{qid}" for qid in qids)
+    return f"""PREFIX wd: <http://www.wikidata.org/entity/>
+PREFIX p: <http://www.wikidata.org/prop/>
+PREFIX ps: <http://www.wikidata.org/prop/statement/>
+PREFIX pq: <http://www.wikidata.org/prop/qualifier/>
+PREFIX psv: <http://www.wikidata.org/prop/statement/value/>
+PREFIX wikibase: <http://wikiba.se/ontology#>
+SELECT ?district ?population ?date ?area
+WHERE {{
+  VALUES ?district {{ {values} }}
+  OPTIONAL {{ ?district p:P1082 ?statement .
+             ?statement ps:P1082 ?population .
+             OPTIONAL {{ ?statement pq:P585 ?date }} }}
+  OPTIONAL {{ ?district p:P2046/psv:P2046 [ wikibase:quantityAmount ?area ;
+                                            wikibase:quantityUnit wd:Q712226 ] }}
+}}
+"""

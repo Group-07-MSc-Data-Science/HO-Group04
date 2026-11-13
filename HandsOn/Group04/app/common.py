@@ -71,6 +71,26 @@ def wikidata_summary(entity_iri):
             "url": f"https://www.wikidata.org/wiki/{qid}"}
 
 
+@st.cache_data(show_spinner="Consultando Wikidata...", ttl=24 * 3600)
+def wikidata_districts(qids):
+    """Population, its date and area of the districts, from the Wikidata SPARQL
+    endpoint. Returns an empty table if Wikidata cannot be reached."""
+    try:
+        df = data.query_endpoint(
+            q.WIKIDATA_ENDPOINT, q.wikidata_districts(qids), timeout=30,
+            headers={"User-Agent": "BreathePlayMadrid-demo/0.1 (UPM course project)"})
+    except Exception:
+        return None
+    if df.empty:
+        return None
+    df["qid"] = df["district"].map(slug)
+    df["date"] = df["date"].fillna("")
+    # if there are several population values, keep the most recent one
+    df = df.sort_values("date").groupby("qid", as_index=False).last()
+    df["year"] = df["date"].str[:4]
+    return df[["qid", "population", "year", "area"]]
+
+
 def sidebar_footer():
     st.sidebar.divider()
     st.sidebar.caption(
